@@ -14,10 +14,8 @@ export default NextAuth({
                 const client = await connectDataBase()
 
                 const user = await documentFindDataBase(client, 'users', { email: credentials.email })
-                console.log(user);
-                
 
-                if (!user) {    
+                if (!user) {
                     client.close()
                     throw new Error('User not found')
                 }
@@ -31,7 +29,7 @@ export default NextAuth({
 
                 client.close()
 
-                return {email:user.email,id:user._id }
+                return {email:user.email}
             }
         })
     ]

@@ -37,11 +37,12 @@ export const documentDeleteDataBase: Function = async (client: any, collection: 
     return result;
 }
 
+
 export const documentUpdateMany = async (client: any, collection: string, findDocument: object, updateFields: any) => {
     const options = { multi: true }
 
     delete updateFields._id
-    
+
     if (updateFields.password) {
         updateFields.password = await hashPassword(updateFields.password)
     }
@@ -54,6 +55,13 @@ export const documentUpdateMany = async (client: any, collection: string, findDo
 export const documentFindDataBase: Function = async (client: any, collection: string, document: object) => {
 
     const result = client.db().collection(collection).findOne(document)
+
+    return result
+}
+
+export const documentAllFindDataBase: Function = async (client: any, collection: string, document: object) => {
+
+    const result = client.db().collection(collection).find(document).toArray()
 
     return result
 }

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
-import { allDocumentInCollections, connectDataBase, documentInsertDataBase } from "../../../db/mongoDB";
+import { connectDataBase, documentAllFindDataBase, documentInsertDataBase } from "../../../db/mongoDB";
 
 
 const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -19,13 +19,10 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //GET
     if (req.method === "GET") {
-        const userInfo = await getSession({req:req})
-        // let bookId = mongoIDConvert(req.query.book_id)
-
-        console.log(userInfo);
+        let { user: { email } } = await getSession({ req: req })
 
         try {
-            const basketsDocument = await allDocumentInCollections(client, 'baskets', { user_id: userInfo.id })
+            const basketsDocument = await documentAllFindDataBase(client, 'baskets', { user_email: email })
             client.close()
             res.status(200).json({ messages: 'Success', result: { data: basketsDocument } })
         } catch {
@@ -37,13 +34,9 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //POST
     if (req.method === 'POST') {
-        const { book: { title, author, description, price, trend }, user_id } = req.body;
+        const { book: {_id, title, author, name, description, price, trend }, user_email } = req.body;
 
-        const session = await getSession({ req: req })
-        // let bookId = mongoIDConvert(req.query.book_id)
-
-        console.log(session);
-
+        let { user: { email } } = await getSession({ req: req })
 
         if (
             !title || title.trim() === '' &&
@@ -51,7 +44,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
             !author || author.trim() === '' &&
             !price || price.trim() === '' &&
             !trend || trend.trim() === '' &&
-            !user_id
+            !user_email
         ) {
             res.status(422).json({ messages: "Invalid title and more area" })
             return
@@ -59,7 +52,21 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
 
         try {
-            await documentInsertDataBase(client, 'baskets', { book: { title, author, description, price, trend }, user_id })
+            await documentInsertDataBase(client,
+                'baskets',
+                {
+                    count: 1,
+                    user_email,
+                    book: {
+                        _id,
+                        title,
+                        author,
+                        name,
+                        description,
+                        price,
+                        trend
+                    }
+                })
             client.close()
             res.status(201).json({ messages: 'Cool!! Added book you basket' })
         } catch {
