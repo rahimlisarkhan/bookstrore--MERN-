@@ -21,7 +21,7 @@ const HomeContentAPI = async (req: NextApiRequest, res: NextApiResponse) => {
         try {
             const contentDocument = await allDocumentInCollections(client, 'home-content', { _id: -1 })
             client.close()
-            res.status(200).json({ messages: 'Success', result: { data: { homeContent: contentDocument } } })
+            res.status(200).json({ messages: 'OK', result: { data: { homeContent: contentDocument } } })
         } catch {
             client.close()
             res.status(500).json({ messages: 'Server error' })

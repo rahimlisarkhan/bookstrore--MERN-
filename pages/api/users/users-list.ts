@@ -21,29 +21,13 @@ const UsersAPI = async (req: NextApiRequest, res: NextApiResponse) => {
         try {
             const contactDocument = await allDocumentInCollections(client, 'users', { _id: -1 })
             client.close()
-            res.status(200).json({ messages: 'Success', result: { data: { users: contactDocument } } })
+            res.status(200).json({ messages: 'OK', result: { data: { users: contactDocument } } })
         } catch {
             client.close()
             res.status(500).json({ messages: 'Server error' })
         }
 
     }
-
-    //POST
-    if (req.method === "PUT") {
-        let bookId = mongoIDConvert(req.query.book_id)
-        console.log(bookId);
-
-        try {
-            await documentUpdateMany(client, 'users', { _id: bookId }, req.body)
-            client.close()
-            res.status(200).json({ messages: 'Success edit book field' })
-        } catch {
-            client.close()
-            res.status(500).json({ messages: 'Server error' })
-        }
-    }
-
 
 }
 

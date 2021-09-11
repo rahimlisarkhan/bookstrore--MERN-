@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { allDocumentInCollections, connectDataBase, documentUpdateMany, mongoIDConvert } from "../../../db/mongoDB";
+import { allDocumentInCollections, connectDataBase, documentAllFindDataBase, documentUpdateMany, mongoIDConvert } from "../../../db/mongoDB";
 import { getSession } from 'next-auth/client'
 
 const UserAPI = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,14 +17,20 @@ const UserAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //GET
     if (req.method === "GET") {
-        let user = await getSession({ req: req })
-
-        console.log(user);
+        // let {user:{email}} = await getSession({ req: req })
+        const email = req.body.user_email
 
         try {
-            const userDocument = await allDocumentInCollections(client, 'users', { email: user.email })
+            const orderDocument = await documentAllFindDataBase(client, 'users', { email })
+
+            if (orderDocument.length === 0) {
+                res.status(422).json({ messages: "User not found" })
+            }
+
+            console.log(orderDocument);
+            delete orderDocument[0].password
+            res.status(200).json({ messages: 'OK', result: { data: { user: { ...orderDocument[0] } } } })
             client.close()
-            res.status(200).json({ messages: 'Success', result: { data: { user: userDocument } } })
         } catch {
             client.close()
             res.status(500).json({ messages: 'Server error' })
@@ -34,13 +40,11 @@ const UserAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //POST
     if (req.method === "PUT") {
-        let bookId = mongoIDConvert(req.query.book_id)
-        console.log(bookId);
 
         try {
-            await documentUpdateMany(client, 'users', { _id: bookId }, req.body)
+            await documentUpdateMany(client, 'users', { email:req.body.email }, req.body)
             client.close()
-            res.status(200).json({ messages: 'Success edit book field' })
+            res.status(200).json({ messages: 'OK' })
         } catch {
             client.close()
             res.status(500).json({ messages: 'Server error' })

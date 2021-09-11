@@ -5,7 +5,7 @@ import { allDocumentInCollections, connectDataBase, documentInsertDataBase } fro
 const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
     let client: any
 
-    
+
     //CONNECT
     try {
         client = await connectDataBase()
@@ -15,14 +15,14 @@ const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
         client.close()
         return
     }
-   
+
     //GET
     if (req.method === "GET") {
 
         try {
             const booksDocument = await allDocumentInCollections(client, 'books', { _id: -1 })
             client.close()
-            res.status(200).json({ messages: 'Success', result: { data: booksDocument } })
+            res.status(200).json({ messages: 'OK', result: { data: booksDocument } })
         } catch {
             client.close()
             res.status(500).json({ messages: 'Server error' })
@@ -32,13 +32,14 @@ const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //POST
     if (req.method === 'POST') {
-        const { title, author, description, price, trend } = req.body;
+        const { title, author, description, name, price, trend } = req.body;
 
         if (
             !title || title.trim() === '' &&
             !description || description.trim() === '' &&
             !author || author.trim() === '' &&
             !price || price.trim() === '' &&
+            !name || name.trim() === '' &&
             !trend || trend.trim() === ''
         ) {
             res.status(422).json({ messages: "Invalid title and more area" })
@@ -47,7 +48,7 @@ const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
 
 
         try {
-            await documentInsertDataBase(client, 'books', { title, author, description, price, trend })
+            await documentInsertDataBase(client, 'books', { title, author, description, name, price: +price, trend,summary:+price })
             client.close()
             res.status(201).json({ messages: 'Cool!! Created new book' })
         } catch {

@@ -21,34 +21,28 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
 
     //POST
-    if (req.method === 'POST') {
+    if (req.method === "POST") {
+        let bookId = mongoIDConvert(req.body.book_id)
+        let email = req.body.user_email
 
-        const {  user_email } = req.body
-        const email = user_email
-
-
-        // let { user: { email } } = await getSession({ req: req })
-        
-        const basketProduct = await documentDeleteAllDataBase(client, 'baskets', { user_email: email })
-
-        if (!basketProduct) {
-            res.status(422).json({ messages: "Empty basket" })
-            client.close()
-            return
-        }
 
 
         try {
-            await documentDeleteAllDataBase(client, 'baskets', { user_email: email })
-            client.close()
-            res.status(200).json({ messages: 'OK' })
+            const basketProduct = await documentDeleteAllDataBase(client, 'baskets', { user_email: email, book_id: bookId })
 
+
+            // if (!basketProduct) {
+            //     res.status(422).json({ messages: "Error! Already book in basket deleted" })
+            //     client.close()
+            //     return
+            // }
+
+            client.close()
+            res.status(200).json({ messages: 'Success deleted book in basket' })
         } catch {
-            res.status(500).json({ messages: "Insertin data failed" })
             client.close()
-            return
+            res.status(500).json({ messages: 'Server error' })
         }
-
     }
 }
 

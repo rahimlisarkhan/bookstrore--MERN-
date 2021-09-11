@@ -37,6 +37,12 @@ export const documentDeleteDataBase: Function = async (client: any, collection: 
     return result;
 }
 
+export const documentDeleteAllDataBase: Function = async (client: any, collection: string, findDocument: object) => {
+
+    const result = await client.db().collection(collection).deleteMany(findDocument);
+    return result;
+}
+
 
 export const documentUpdateMany = async (client: any, collection: string, findDocument: object, updateFields: any) => {
     const options = { multi: true }
@@ -62,7 +68,6 @@ export const documentFindDataBase: Function = async (client: any, collection: st
 export const documentAllFindDataBase: Function = async (client: any, collection: string, document: object) => {
 
     const result = client.db().collection(collection).find(document).toArray()
-
     return result
 }
 
@@ -70,9 +75,9 @@ export const allDocumentInCollections: Function = async (client: any, collection
 
     const result = await client.db().collection(collection).find().sort(sort).toArray();
 
-    if (result.length === 1) {
-        return { ...result[0] }
-    }
+    // if (result.length === 1) {
+    //     return { ...result[0] }
+    // }
     return result
 }
 

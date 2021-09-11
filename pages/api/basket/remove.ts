@@ -22,16 +22,21 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //POST
     if (req.method === 'POST') {
-        let basket_id = mongoIDConvert(req.body.basket_id)
+        const { book_id, user_email } = req.body
+        const email = user_email
+
+        // const { book_id } = req.body
+        // let { user: { email } } = await getSession({ req: req })
+
 
         if (
-            !basket_id
+            !book_id
         ) {
             res.status(422).json({ messages: "Invalid basket and more area" })
             return
         }
 
-        const basketProduct = await documentFindDataBase(client, 'baskets', { _id: basket_id })
+        const basketProduct = await documentAllFindDataBase(client, 'baskets', { user_email: email, book_id })
 
         if (!basketProduct) {
             res.status(422).json({ messages: "Invalid basket" })
@@ -39,20 +44,25 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
             return
         }
 
-        const { count } = basketProduct
-        const updateCount = count - 1 
+        const { count, price } = basketProduct[0]
+        const updateCount = count - 1
+        const updateSummary = +(+price * updateCount).toFixed(2)
 
         try {
+
             if (updateCount === 0) {
-                await documentDeleteDataBase(client, 'baskets', { _id: basket_id })
+                await documentDeleteDataBase(client, 'baskets', { book_id })
                 client.close()
                 res.status(200).json({ messages: 'OK' })
                 return
             }
 
-            await documentUpdateMany(client, 'baskets', { _id: basket_id }, { count: updateCount })
+            basketProduct[0].count = updateCount
+            basketProduct[0].summary = updateSummary
+            await documentUpdateMany(client, 'baskets', { book_id }, { count: updateCount, summary: updateSummary })
+
             client.close()
-            res.status(200).json({ messages: 'product minus' })
+            res.status(200).json({ messages: 'OK', result: { data: { book: basketProduct[0] } } })
         } catch {
             res.status(500).json({ messages: "Insertin data failed" })
             client.close()
