@@ -17,12 +17,8 @@ const HomePage = () => {
             password: passwordRef.current.value,
         })
 
-        console.log(result);
-
         setErrorMessage(result.error)
     }
-
-
 
 
 

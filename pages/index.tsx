@@ -1,6 +1,9 @@
+import { Layout } from "../components/Layout/Layout";
 
 const HomePage = () => (
-    <h1>Hello Next.js 👋</h1>
+    <Layout>
+        <h1>Hello Next.js 👋</h1>
+    </Layout>
 )
 
 

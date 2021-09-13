@@ -1,0 +1,96 @@
+.admin-panel-container {
+    background-color: $colorMain;
+    height: 100vh;
+    display: flex;
+}
+
+//Nav
+.admin-panel-nav {
+    width: 8%;
+    height: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 2px solid rgba($colorMainLight, .85);
+    align-items: center;
+
+    img {
+        border-radius: 10px;
+        object-fit: contain;
+        width: 80px;
+        height: 80px;
+    }
+
+    &__list {
+        font-size: 25px;
+        margin-top: 70px;
+        color: $colorTextLight;
+        padding: 0 !important;
+
+        li {
+            width: 70px;
+            height: 70px;
+            @include center;
+            border-radius: 20%;
+            cursor: pointer;
+            margin-bottom: 15px;
+            margin-left: 0 !important;
+
+            &:hover {
+                background-color: rgba($colorMainLight, .45);
+            }
+        }
+    }
+
+    button {
+        width: 70px;
+        height: 70px;
+        border-radius: 20%;
+        font-size: 25px;
+        cursor: pointer;
+        background-color: transparent;
+        color: $colorTextLight;
+        @include center;
+        border: none;
+
+        &:hover {
+            background-color: rgba($colorMainLight, .45);
+        }
+    }
+}
+
+.admin-router-content {
+    width: 92%;
+    padding: 20px;
+
+    h1 {
+        color: white;
+    }
+}
+
+.admin-panel-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+
+    &__route {
+        color: white;
+        font-weight: 500;
+        font-size: 25px;
+        letter-spacing: 2px;
+        text-transform: capitalize;
+    }
+
+    span {
+        width: 50px;
+        height: 50px;
+        @include center;
+        font-size: 15px;
+        letter-spacing: 2px;
+        font-weight: bolder;
+        color: $colorTextLight;
+        border-radius: 50%;
+        background-color: #3f3655;
+    }
+}

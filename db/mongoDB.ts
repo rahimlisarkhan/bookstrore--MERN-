@@ -31,19 +31,21 @@ export const documentInsertDataBase: Function = async (client: any, collection: 
     return result;
 }
 
-export const documentDeleteDataBase: Function = async (client: any, collection: string, findDocument: object) => {
+//DELETE
+export const documentDeleteOneDataBase: Function = async (client: any, collection: string, findDocument: object) => {
 
     const result = await client.db().collection(collection).deleteOne(findDocument);
     return result;
 }
 
-export const documentDeleteAllDataBase: Function = async (client: any, collection: string, findDocument: object) => {
+export const documentDeleteManyDataBase: Function = async (client: any, collection: string, findDocument: object) => {
 
     const result = await client.db().collection(collection).deleteMany(findDocument);
     return result;
 }
 
 
+//UPDATE
 export const documentUpdateMany = async (client: any, collection: string, findDocument: object, updateFields: any) => {
     const options = { multi: true }
 
@@ -58,6 +60,8 @@ export const documentUpdateMany = async (client: any, collection: string, findDo
     return result;
 }
 
+
+//FİND
 export const documentFindDataBase: Function = async (client: any, collection: string, document: object) => {
 
     const result = client.db().collection(collection).findOne(document)
@@ -71,6 +75,8 @@ export const documentAllFindDataBase: Function = async (client: any, collection:
     return result
 }
 
+
+//ALL DOCUMENT
 export const allDocumentInCollections: Function = async (client: any, collection: string, sort: object) => {
 
     const result = await client.db().collection(collection).find().sort(sort).toArray();

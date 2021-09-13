@@ -54,7 +54,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
             basketProduct[0].count = updateCount
             basketProduct[0].summary = updateSummary
 
-            await documentUpdateMany(client, 'baskets', { book_id }, { count: updateCount, summary: +updateSummary })
+            await documentUpdateMany(client, 'baskets', {user_email: email, book_id }, { count: updateCount, summary: +updateSummary })
             client.close()
             res.status(200).json({ messages: 'OK', result: { data: { book: { ...basketProduct[0] } } } })
         } catch {

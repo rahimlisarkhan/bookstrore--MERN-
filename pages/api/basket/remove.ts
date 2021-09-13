@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
-import { connectDataBase, documentAllFindDataBase, documentDeleteDataBase, documentFindDataBase, documentInsertDataBase, documentUpdateMany, mongoIDConvert } from "../../../db/mongoDB";
+import { connectDataBase, documentAllFindDataBase, documentDeleteManyDataBase, documentUpdateMany } from "../../../db/mongoDB";
 
 
 const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -51,7 +51,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
         try {
 
             if (updateCount === 0) {
-                await documentDeleteDataBase(client, 'baskets', { book_id })
+                await documentDeleteManyDataBase(client, 'baskets', {user_email: email, book_id })
                 client.close()
                 res.status(200).json({ messages: 'OK' })
                 return
@@ -59,7 +59,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
             basketProduct[0].count = updateCount
             basketProduct[0].summary = updateSummary
-            await documentUpdateMany(client, 'baskets', { book_id }, { count: updateCount, summary: updateSummary })
+            await documentUpdateMany(client, 'baskets', {user_email: email, book_id }, { count: updateCount, summary: updateSummary })
 
             client.close()
             res.status(200).json({ messages: 'OK', result: { data: { book: basketProduct[0] } } })

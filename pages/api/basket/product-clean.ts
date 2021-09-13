@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
-import { connectDataBase, documentAllFindDataBase, documentDeleteAllDataBase, documentDeleteDataBase, documentFindDataBase, documentInsertDataBase, documentUpdateMany, mongoIDConvert } from "../../../db/mongoDB";
+import { connectDataBase, documentDeleteManyDataBase, mongoIDConvert } from "../../../db/mongoDB";
 
 
 const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -28,14 +28,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
 
         try {
-            const basketProduct = await documentDeleteAllDataBase(client, 'baskets', { user_email: email, book_id: bookId })
-
-
-            // if (!basketProduct) {
-            //     res.status(422).json({ messages: "Error! Already book in basket deleted" })
-            //     client.close()
-            //     return
-            // }
+            await documentDeleteManyDataBase(client, 'baskets', { user_email: email, book_id: bookId })
 
             client.close()
             res.status(200).json({ messages: 'Success deleted book in basket' })

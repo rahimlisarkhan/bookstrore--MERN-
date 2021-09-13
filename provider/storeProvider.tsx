@@ -1,4 +1,8 @@
+import { useRouter } from 'next/dist/client/router'
 import React, { createContext, useState, useContext, useEffect } from 'react'
+import Cookies from 'js-cookie'
+import { getAdminUser, hashObject, hashPassword } from '../utils/const-util'
+import { hash, compare } from "bcryptjs"
 
 
 const storeContext = createContext<any>({})
@@ -6,15 +10,49 @@ const storeContext = createContext<any>({})
 
 export const StoreProvider = ({ children }) => {
 
+    const { push, back } = useRouter()
+
     //setter
-    const [auth, setAuth] = useState(false)
+    const [auth, setAuth] = useState(null)
+    const [adminUser, setAdminUser] = useState(null)
+
+    useEffect(() => {
+        adminUserLoad()
+    }, [])
 
 
-    //getter
+    //handleFunctions
+    const adminUserLoad = async () => {
+        const userCookie = getAdminUser()
+        if (userCookie) {
+            const adminUserInfo = await JSON.parse(userCookie)
 
+            setAdminUser(adminUserInfo)
+        } else {
+            push('/admin')
+        }
+    }
+
+    const adminLogout = () => {
+        setAdminUser(null)
+        push('/admin')
+        Cookies.remove('admin-session')
+    }
+
+    const adminLogin = async (data) => {
+        setAdminUser(data)
+        Cookies.set('admin-session', JSON.stringify(data))
+    }
+
+
+    //Props
     const contextAPI = {
         auth,
-        setAuth
+        setAuth,
+        setAdminUser,
+        adminUser,
+        adminLogout,
+        adminLogin
     }
 
     //return context api
