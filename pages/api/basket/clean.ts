@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
-import { connectDataBase, documentAllFindDataBase, documentDeleteAllDataBase, documentDeleteDataBase, documentFindDataBase, documentInsertDataBase, documentUpdateMany, mongoIDConvert } from "../../../db/mongoDB";
+import { connectDataBase, documentDeleteManyDataBase } from "../../../db/mongoDB";
 
 
 const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -29,7 +29,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
         // let { user: { email } } = await getSession({ req: req })
         
-        const basketProduct = await documentDeleteAllDataBase(client, 'baskets', { user_email: email })
+        const basketProduct = await documentDeleteManyDataBase(client, 'baskets', { user_email: email })
 
         if (!basketProduct) {
             res.status(422).json({ messages: "Empty basket" })
@@ -39,7 +39,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
 
         try {
-            await documentDeleteAllDataBase(client, 'baskets', { user_email: email })
+            await documentDeleteManyDataBase(client, 'baskets', { user_email: email })
             client.close()
             res.status(200).json({ messages: 'OK' })
 

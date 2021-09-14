@@ -9,7 +9,7 @@
     @include center;
 
     &__overlay {
-        background-color: rgba(255, 255, 255, 0.205);
+        background-color: rgba(0, 0, 0, 0.329);
         position: absolute;
         top: 0;
         left: 0;
@@ -22,12 +22,26 @@
         color: $colorTextLight;
     }
 
-    &__content{
+    &__content {
         width: 80%;
         height: 600px;
         padding: 15px;
         border-radius: 4px;
         background-color: blanchedalmond;
         z-index: 999;
+        animation: modalContent .7s;
+        transition: all .2;
+    }
+}
+
+@keyframes modalContent {
+    from {
+        margin-top: 100px;
+        opacity: .5;
+    }
+
+    to {
+        margin-top: 0;
+        opacity: 1;
     }
 }

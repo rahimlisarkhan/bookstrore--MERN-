@@ -10,7 +10,7 @@ const storeContext = createContext<any>({})
 
 export const StoreProvider = ({ children }) => {
 
-    const { push, back } = useRouter()
+    const { push, back, asPath } = useRouter()
 
     //setter
     const [auth, setAuth] = useState(null)
@@ -28,6 +28,7 @@ export const StoreProvider = ({ children }) => {
             const adminUserInfo = await JSON.parse(userCookie)
 
             setAdminUser(adminUserInfo)
+            asPath === '/admin' && push('/admin/panel')
         } else {
             push('/admin')
         }

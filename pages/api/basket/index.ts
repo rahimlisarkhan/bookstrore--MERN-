@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/client";
-import { connectDataBase, documentAllFindDataBase, documentFindDataBase, documentInsertDataBase } from "../../../db/mongoDB";
+import { connectDataBase, documentAllFindDataBase, documentInsertDataBase } from "../../../db/mongoDB";
 
 
 const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {

@@ -6,10 +6,16 @@
 @import 'base';
 @import 'utill';
 
+//Components
+@import './components/table';
+@import './components/modal';
+@import './components/chart';
+@import './components/alert';
+@import './components/loading-btn';
+
+
 
 //Pages
 @import './pages/admin/admin-login';
 @import './pages/admin/admin-content';
 @import './pages/admin/loading';
-@import './table';
-@import './modal';

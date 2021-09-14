@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { LoadingAdmin } from "../../../components/Loading/LoadingAdmin"
-import { AdminOrdersRequest } from "../../../services/admin"
-import AdminOrdersContent from "../../../src/admin/panel/orders/AdminOrdersContent"
+import { getAdminOrdersRequest, removeAdminOrdersRequest } from "../../../services/admin"
 import AdminPanelContainer from "../../../src/admin/panel/container/AdminPanelContainer"
-import { Modal } from "../../../components/Modal/Modal"
-
+import dynamic from 'next/dynamic';
+import { toast } from "react-toastify";
+const AdminOrdersContent = dynamic(() => import('../../../src/admin/panel/orders/AdminOrdersContent'));
 
 const AdminOrdersPage = () => {
 
@@ -19,21 +19,45 @@ const AdminOrdersPage = () => {
     ]
 
     const [orders, setOrders] = useState<any | null>(null)
+    const [adminOrderList, setOrderList] = useState<any | null>(null)
+
+
+    console.log(orders);
+
 
     useEffect(() => {
         (async () => {
-            const { data } = await AdminOrdersRequest()
-
+            const { data } = await getAdminOrdersRequest()
+            setOrderList(data.result.data.orders)
             setOrders(data)
         })()
     }, [])
 
-    console.log(orders);
+    const handleOrderDeleted = async (id: number | string) => {
+
+        try {
+            const { status, data: { messages } } = await removeAdminOrdersRequest(id)
+            if (status === 200) {
+                let newData = adminOrderList.filter(order => order._id !== id)
+
+                setOrderList(newData)
+                toast.success(messages)
+
+            }
+
+        } catch (err) {
+            toast.error('Server Error')
+        }
+    }
+
+
+    if (!orders)
+        return <LoadingAdmin />
 
     return (
         <AdminPanelContainer>
-            {!orders && <LoadingAdmin opacity={true} />}
-            <AdminOrdersContent tableList={tableList} orderList={orders} />
+            {!orders && <LoadingAdmin />}
+            <AdminOrdersContent tableList={tableList} orderList={orders} adminOrList={adminOrderList} handleOrderDeleted={handleOrderDeleted} />
         </AdminPanelContainer>
     )
 }

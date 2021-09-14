@@ -1,9 +1,7 @@
-
-
 .light-table {
     width: 100%;
     border-radius: 20px;
-    margin-top: 130px;
+    margin-top: 60px;
     height: 600px;
     overflow-y: auto;
 
@@ -41,7 +39,23 @@
         background-color: rgba(202, 208, 218, 0.075);
         color: $colorTextLight;
         cursor: pointer;
-        padding: 15px;
+        position: relative;
+
+        .tableDel {
+            position: absolute;
+            top: 35%;
+            right: 4%;
+            color: $colorTextLight;
+            font-size: 20px;
+            z-index: 999;
+            background: transparent;
+            outline: none;
+            border: none;
+
+            &:hover {
+                transform: scale(1.3);
+            }
+        }
 
         &:hover {
             background-color: rgba(202, 208, 218, 0.116);
@@ -60,7 +74,7 @@
             // padding-bottom: 15px;
             display: flex;
             justify-content: space-between;
-            padding: 10px;
+            padding: 20px 15px;
 
             td {
                 width: calc(100%/7);
@@ -70,18 +84,40 @@
     }
 }
 
-.dark-table{
+.dark-table {
     margin-top: 10px;
-    thead{
+
+    thead {
         color: black;
-        border-bottom: 1px solid  rgb(202, 202, 202);
+        border-bottom: 1px solid rgb(202, 202, 202);
     }
 
-    tbody{
+    tbody {
         color: black;
         border-radius: 0 !important;
-        &:not(:last-child){
-            border-bottom: 1px solid  rgb(202, 202, 202);
+
+        &:not(:last-child) {
+            border-bottom: 1px solid rgb(202, 202, 202);
         }
     }
+}
+
+
+.deleteOrderAnimation {
+    animation: deleteAni 2s;
+}
+
+@keyframes deleteAni {
+
+    from {
+        opacity: 1;
+        z-index: 9999;
+    }
+
+    to {
+        margin-right: 100px;
+        opacity: .5;
+        z-index: -9999;
+    }
+
 }

@@ -6,114 +6,115 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient($colorMain, $colorMain2);
+    // background-image: linear-gradient($colorMain, $colorMain2);
+    background-color: $colorMain;
     @include center;
 
-    .admin {
-        width: 65%;
-        position: relative;
-        box-shadow: 0 1px 15px .8px rgba(0, 0, 0, 0.274);
-        @include center;
-        background-color: red;
+  
+}
+.admin {
+    width: 65%;
+    position: relative;
+    box-shadow: 0 1px 15px .8px rgba(0, 0, 0, 0.274);
+    @include center;
+    background-color: red;
+}
+
+.admin-form {
+    width: 35%;
+    height: 550px;
+    background-color: #ffff;
+    padding: 40px;
+
+    img {
+        width: 80px;
+        height: 80px;
     }
 
-    .admin-form {
-        width: 35%;
-        height: 550px;
-        background-color: #ffff;
-        padding: 40px;
-
-        img {
-            width: 80px;
-            height: 80px;
-        }
-
-        form {
-            display: flex;
-            margin-top: 20px;
-            flex-direction: column;
-            font-size: 18px;
-
-            .admin-group {
-                display: flex;
-                flex-direction: column-reverse;
-            }
-
-            label {
-                color: $colorMain;
-                margin: 20px 0 10px 0;
-                font-weight: 500;
-                color: #d4d4d4;
-            }
-
-            input {
-                font-size: 18px;
-                padding: 10px;
-                height: 40px;
-                border: none;
-                background-color: transparent;
-                outline: none;
-                border-bottom: 2px solid #d4d4d4;
-                color: #d4d4d4;
-
-                &:focus {
-                    background-color: transparent;
-                    border-bottom: 2px solid $colorMain2;
-                    color: #2b2b2b;
-
-                    + label {
-                        color: $colorMain2;
-                    }
-                }
-            }
-
-            button {
-                margin-top: 60px;
-                width: 100%;
-                height: 50px;
-                background-color: $colorMain2;
-                color: white;
-                font-size: 22px;
-                border: none;
-                outline: none;
-                cursor: pointer;
-                transition: all .2s;
-
-                &:hover {
-                    background-color: $colorMain;
-                }
-            }
-        }
-    }
-
-    .admin-walpaper {
-        width: 65%;
-        padding: 10px;
-        height: 550px;
-        padding: 40px;
-
-        background-image: linear-gradient(rgb(127, 86, 204), rgb(104, 59, 189));
-        color: #ffff;
+    form {
         display: flex;
+        margin-top: 20px;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        font-size: 18px;
 
-        &__title {
-            font-size: 45px;
-            font-weight: bold;
-            text-align: center;
+        .admin-group {
+            display: flex;
+            flex-direction: column-reverse;
         }
 
-        &__desc {
-            text-align: center;
+        label {
+            color: $colorMain;
+            margin: 20px 0 10px 0;
+            font-weight: 500;
+            color: #d4d4d4;
+        }
 
-            font-size: 20px;
-            margin-top: 20px;
+        input {
+            font-size: 18px;
+            padding: 10px;
+            height: 40px;
+            border: none;
+            background-color: transparent;
+            outline: none;
+            border-bottom: 2px solid #d4d4d4;
+            color: #d4d4d4;
+
+            &:focus {
+                background-color: transparent;
+                border-bottom: 2px solid $colorMain2;
+                color: #2b2b2b;
+
+                + label {
+                    color: $colorMain2;
+                }
+            }
+        }
+
+        button {
+            margin-top: 60px;
+            width: 100%;
+            height: 50px;
+            background-color: $colorMain2;
+            color: white;
+            font-size: 22px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: all .2s;
+
+            &:hover {
+                background-color: $colorMain;
+            }
         }
     }
 }
 
+.admin-walpaper {
+    width: 65%;
+    padding: 10px;
+    height: 550px;
+    padding: 40px;
+
+    background-image: linear-gradient(rgb(127, 86, 204), $colorMain);
+    color: #ffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__title {
+        font-size: 45px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    &__desc {
+        text-align: center;
+
+        font-size: 20px;
+        margin-top: 20px;
+    }
+}
 .form-error-messages{
     color: $colorError;
     font-size: 16px;

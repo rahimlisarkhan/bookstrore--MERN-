@@ -6,7 +6,6 @@ import AdminPanelNav from "../nav/AdminPanelNav"
 
 const AdminPanelContainer = ({ children }) => {
 
-
     return (
         <div className="admin-panel-container">
 
@@ -14,9 +13,7 @@ const AdminPanelContainer = ({ children }) => {
 
             <div className="admin-router-content">
                 <AdminPanelHeader />
-          
                 {children}
-
             </div>
 
         </div>

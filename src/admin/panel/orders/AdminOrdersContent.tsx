@@ -1,19 +1,24 @@
 
-import { OrderTable } from "../../../../components/Table/OrderTable";
-
+import { OrderTable } from "./OrderTable";
 
 type Props = {
     orderList?: any,
     tableList?: any,
+    adminOrList?: any,
+    handleOrderDeleted: (id: number | string) => void
 }
 
-const AdminOrdersContent = ({ tableList, orderList }: Props) => {
-
-    console.log(orderList);
-
+const AdminOrdersContent = ({ tableList, orderList, handleOrderDeleted, adminOrList }: Props) => {
 
     return (
-            <OrderTable tableHead={tableList} orderlist={orderList} />
+        <>
+        <h1>All order list</h1>
+
+        <OrderTable tableHead={tableList} 
+                    handleOrderDeleted={handleOrderDeleted} 
+                    adminOrList={adminOrList} 
+                    orderlist={orderList} />
+        </>
     )
 }
 

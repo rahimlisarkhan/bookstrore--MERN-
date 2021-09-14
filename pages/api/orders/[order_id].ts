@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { connectDataBase, documentAllFindDataBase, documentDeleteAllDataBase, documentDeleteDataBase, documentFindDataBase, mongoIDConvert } from "../../../db/mongoDB";
+import { connectDataBase, documentAllFindDataBase, documentDeleteManyDataBase, mongoIDConvert } from "../../../db/mongoDB";
 
 
 const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -30,7 +30,7 @@ const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
                 client.close()
                 return
             }
-            
+
             let total_summary = 0
             orderDocument.map((item: any) => total_summary += +item.total_summary)
             res.status(200).json({ messages: 'OK', result: { data: { total_summary, orderlist: orderDocument } } })
@@ -45,8 +45,7 @@ const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === "DELETE") {
         let orderId = mongoIDConvert(req.query.order_id)
-        const email = req.body.user_email
-        const orderDocument = await documentAllFindDataBase(client, 'orders', { _id: orderId, user_email: email })
+        const orderDocument = await documentAllFindDataBase(client, 'orders', { _id: orderId })
 
         if (orderDocument.length === 0) {
             res.status(422).json({ messages: "Not found order" })
@@ -55,7 +54,7 @@ const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         try {
-            await documentDeleteAllDataBase(client, 'orders', { _id: orderId, user_email: email })
+            await documentDeleteManyDataBase(client, 'orders', { _id: orderId })
             client.close()
             res.status(200).json({ messages: 'Success deleted order' })
         } catch {

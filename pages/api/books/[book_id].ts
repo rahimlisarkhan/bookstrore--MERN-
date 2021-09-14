@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { allDocumentInCollections, connectDataBase, documentDeleteDataBase, documentFindDataBase, documentUpdateMany, mongoIDConvert } from "../../../db/mongoDB";
+import { connectDataBase, documentDeleteOneDataBase, documentFindDataBase, documentUpdateMany, mongoIDConvert } from "../../../db/mongoDB";
 
 
 const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -61,7 +61,7 @@ const BooksApi = async (req: NextApiRequest, res: NextApiResponse) => {
         let bookId = mongoIDConvert(req.query.book_id)
 
         try {
-            await documentDeleteDataBase(client, 'books', { _id: bookId })
+            await documentDeleteOneDataBase(client, 'books', { _id: bookId })
             client.close()
             res.status(200).json({ messages: 'Success deleted book'})
         } catch {

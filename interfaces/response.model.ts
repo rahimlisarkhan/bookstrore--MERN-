@@ -6,9 +6,9 @@ export interface ResponseType<T> {
     statusText:string,
     request:any
     data: {
-        messages: string,
-        result: {
-            data: T
+        messages?: string,
+        result?: {
+            data?: T
         }
     }
 

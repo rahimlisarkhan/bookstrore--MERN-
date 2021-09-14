@@ -39,7 +39,7 @@ const AdminLogin: React.FC = () => {
     }
     return (
         <>
-            {loading && <LoadingAdmin opacity={true} />}
+            {loading && <LoadingAdmin />}
             <div className="login-content">
                 <div className="admin">
 

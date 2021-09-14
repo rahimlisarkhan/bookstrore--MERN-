@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { LoadingAdmin } from '../../components/Loading/LoadingAdmin'
-import AdminLogin from '../../src/admin/login/AdminLogin'
+
+
+import dynamic from 'next/dynamic';
+const AdminLogin = dynamic(() => import('../../src/admin/login/AdminLogin'),{ loading: () => <LoadingAdmin /> });
+
 
 const AdminPage = () => {
 
-    const [loading, setLoading] = useState<Boolean>(false)
+    const [loading, setLoading] = useState<Boolean>(true)
 
     useEffect(() => {
-        setLoading(true)
         setTimeout(() => {
             setLoading(false)
-        }, 1000)
+        }, 2000)
+    }, [loading])
 
-    }, [])
-
+    if (loading) {
+        return <LoadingAdmin />
+    }
 
     return (
-        <>
-            {loading && <LoadingAdmin opacity={true} />}
-            < AdminLogin />
-        </>
+        < AdminLogin />
     )
 }
 
