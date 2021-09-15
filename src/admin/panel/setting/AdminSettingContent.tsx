@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { LoadingBtn } from "../../../../components/Loading/LoadingBtn"
 import { store } from "../../../../provider/storeProvider"
@@ -8,7 +8,7 @@ import { AdminChangePasswordRequest, AdminLoginRequest } from "../../../../servi
 const AdminSettingContent = () => {
 
     const { adminUser } = store()
-    const [form, setForm] = useState<any>({ email: adminUser.email })
+    const [form, setForm] = useState<any>({})
     const [errMessage, setErrMessage] = useState<String>(null)
     const [btnLoading, setbtnLoading] = useState(false)
 
@@ -17,12 +17,14 @@ const AdminSettingContent = () => {
     }, [form])
 
 
+    useEffect(() => {
+        adminUser && setForm({ email: adminUser.email })
+    }, [adminUser])
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrMessage(null)
         setbtnLoading(true)
-        console.log(form);
-
 
         try {
             const res = await AdminChangePasswordRequest(form)
@@ -38,16 +40,17 @@ const AdminSettingContent = () => {
 
 
     }
+
     return (
         <>
             <h1>Change password</h1>
             <div className="admin-form setting-form">
                 <div className="admin-form__logo">
-                    <img src="/img/logo.jpg" />
+                    <img src="/img/logo.png" />
                 </div>
                 <form className="admin-form__content" onChange={handleChange} onSubmit={handleSubmit}>
                     <div className="admin-group">
-                        <input name="email" placeholder="Email" value={adminUser.email} readOnly />
+                        <input name="email" placeholder="Email" value={adminUser && adminUser.email} readOnly />
                         <label htmlFor="email">Email:</label>
                     </div>
                     <div className="admin-group">
@@ -61,8 +64,7 @@ const AdminSettingContent = () => {
                     {errMessage && <div className="form-error-messages">{errMessage}</div>}
                     <button type="submit" disabled={btnLoading} >
                         Change
-                        {/* {btnLoading && <LoadingBtn />} */}
-                        <LoadingBtn />
+                        {btnLoading && <LoadingBtn />}
                     </button>
                 </form>
             </div>

@@ -6,7 +6,7 @@
 
 //Nav
 .admin-panel-nav {
-    width: 8%;
+    width: 6%;
     height: 100%;
     padding: 15px;
     display: flex;
@@ -18,24 +18,25 @@
     img {
         border-radius: 10px;
         object-fit: contain;
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
+        filter: brightness(0) invert(1);
     }
 
     &__list {
-        font-size: 25px;
-        margin-top: 70px;
+        font-size: 20px;
+        margin-top: 50px;
         color: $colorTextLight;
         padding: 0 !important;
 
         li {
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             @include center;
             border-radius: 20%;
             cursor: pointer;
-            margin-bottom: 15px;
-            margin-left: 0 !important;
+            margin-bottom: 12px;
+            margin-left: 10px !important;
 
             &:hover {
                 background-color: rgba($colorMainLight, .45);
@@ -44,10 +45,10 @@
     }
 
     button {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
         border-radius: 20%;
-        font-size: 25px;
+        font-size: 22px;
         cursor: pointer;
         background-color: transparent;
         color: $colorTextLight;
@@ -69,6 +70,7 @@
     }
 }
 
+// Admin header
 .admin-panel-header {
     display: flex;
     justify-content: space-between;
@@ -98,8 +100,10 @@
     }
 }
 
+//Setting Page
 .setting-form {
-    width: 60%;
+    width: 50%;
+    margin-top: 20px !important;
     margin: 0 auto;
     border-radius: 10px;
     background: rgba($colorTextLight, .1);
@@ -111,7 +115,6 @@
 
             +label {
                 color: #ffff !important;
-
             }
         }
     }
@@ -123,11 +126,83 @@
     button {
         display: flex;
         align-items: center;
+        justify-content: center;
 
-        &:disabled{
+        &:disabled {
             background: rgb(179, 179, 179);
+
+            &:hover {
+                background: rgb(179, 179, 179);
+            }
         }
+
     }
 }
 
-//Home
+//edit Page
+.tab-content {
+    width: 100%;
+    border-bottom:1px solid $colorMainLight;
+    margin: 15px 0 30px 0;
+}
+
+.tab-list{
+    display: flex;
+    margin-left: 30px;
+    &__item{
+        padding: 15px 25px;
+        font-size: 18px;
+        color: $colorTextLight;
+        border-radius: 10px 10px 0 0 ;
+        cursor: pointer;
+    }
+}
+
+.active-tab{
+    position: relative;
+    border: 1px solid $colorMainLight;
+    &::after{
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -5%;
+        width: 100%;
+        height: 4px;
+        background-color: $colorMain;
+    }
+}
+
+.user-list{
+    display: flex;
+    height: 550px;
+    flex-wrap: wrap;
+    overflow-y:auto;
+    justify-content: flex-start;
+}
+
+.user-form__content{
+    width: 70%;
+    display: flex;
+    margin:  0 auto;
+    flex-direction: column;
+    margin-top: 100px;
+    input,button{
+        width: 100%;
+        height: 70px;
+        margin-bottom: 15px;
+        background-color: #ededed;
+        border: none;
+        font-size: 20px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    button{
+        background-color: $colorMainLight;
+        color: white;
+
+        &:hover{
+            background-color: $colorTextLight;
+        }
+    }
+}

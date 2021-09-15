@@ -42,10 +42,9 @@ const AdminLogin: React.FC = () => {
             {loading && <LoadingAdmin />}
             <div className="login-content">
                 <div className="admin">
-
                     <div className="admin-form">
                         <div className="admin-form__logo">
-                            <img src="/img/logo.jpg" />
+                            <img src="/img/logo.png" />
                         </div>
                         <form className="admin-form__content" onChange={handleChange} onSubmit={handleSubmit}>
                             <div className="admin-group">

@@ -2,9 +2,6 @@ import { useEffect, useState } from "react"
 import { ChartColumn } from "../../../components/Chart/ChartColumn"
 import { ChartLine } from "../../../components/Chart/ChartLine"
 import { ChartDonut } from "../../../components/Chart/ChatDonut"
-import dynamic from "next/dynamic"
-
-
 
 
 type Props = {

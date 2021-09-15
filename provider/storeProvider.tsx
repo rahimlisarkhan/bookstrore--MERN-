@@ -1,8 +1,7 @@
 import { useRouter } from 'next/dist/client/router'
 import React, { createContext, useState, useContext, useEffect } from 'react'
 import Cookies from 'js-cookie'
-import { getAdminUser, hashObject, hashPassword } from '../utils/const-util'
-import { hash, compare } from "bcryptjs"
+import { getAdminUser } from '../utils/const-util'
 
 
 const storeContext = createContext<any>({})
@@ -24,12 +23,13 @@ export const StoreProvider = ({ children }) => {
     //handleFunctions
     const adminUserLoad = async () => {
         const userCookie = getAdminUser()
-        if (userCookie) {
+        if (userCookie && asPath.includes('/admin')) {
             const adminUserInfo = await JSON.parse(userCookie)
 
             setAdminUser(adminUserInfo)
-            asPath === '/admin' && push('/admin/panel')
-        } else {
+            asPath === "/admin" && push('/admin/panel')
+        }
+        if (!userCookie && asPath.includes('/admin')) {
             push('/admin')
         }
     }

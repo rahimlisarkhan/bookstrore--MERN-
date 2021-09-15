@@ -49,9 +49,9 @@ export const documentDeleteManyDataBase: Function = async (client: any, collecti
 
 export const documentUpdateOne = async (client: any, collection: string, findDocument: object, updateFields: any) => {
 
-    if (updateFields.password) {
-        updateFields.password = await hashPassword(updateFields.password)
-    }
+    // if (updateFields.password) {
+    //     updateFields.password = await hashPassword(updateFields.password)
+    // }
 
     const result = await client.db().collection(collection).updateOne(findDocument, { $set: updateFields });
 

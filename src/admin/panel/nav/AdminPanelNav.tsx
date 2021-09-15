@@ -17,7 +17,7 @@ const AdminPanelNav = () => {
         <div className="admin-panel-nav">
             <nav>
                 <div className="admin-panel-nav__logo">
-                    <img src="/img/logo.jpg" alt='book store logo' />
+                    <img src="/img/logo.png" alt='book store logo' />
                 </div>
                 <ul className="admin-panel-nav__list">
                     <li onClick={() => push(ROUTER.ADMIN.PANEL.MAIN.href)} className={activeNav(ROUTER.ADMIN.PANEL.MAIN.href)}><BiHomeSmile /></li>

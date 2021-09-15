@@ -86,7 +86,7 @@ const BasketAPI = async (req: NextApiRequest, res: NextApiResponse) => {
                     author,
                     name,
                     description,
-                    price,
+                    price: +price,  
                     trend
                 })
             client.close()
