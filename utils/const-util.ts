@@ -6,7 +6,7 @@ export const getAdminUser = () => Cookies.get('admin-session')
 
 
 export const hashPassword = async (password: string) => {
-    const passwordHash = hash(password, 35)
+    const passwordHash = await hash(password, 12)
     return passwordHash
 }
 
@@ -15,8 +15,8 @@ export const hashObject = async (object: object) => {
     return objectHash
 }
 
-export const verifyPassword = async (password: string, hashedPassword: string) => {
-    const isValid: boolean = await compare(password, hashedPassword)
+export const verifyPassword = async (password, hashedPassword) => {
+    const isValid = await compare(password, hashedPassword)
     return isValid
 }
 

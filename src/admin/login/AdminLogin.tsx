@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 import { LoadingAdmin } from "../../../components/Loading/LoadingAdmin";
 import { store } from "../../../provider/storeProvider";
 import { AdminLoginRequest } from "../../../services/admin";
+import { BsEye, BsEyeSlash } from 'react-icons/bs'
 
 
 const AdminLogin: React.FC = () => {
@@ -11,6 +12,7 @@ const AdminLogin: React.FC = () => {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [errMessage, setErrMessage] = useState<String>(null)
+    const [passwordShow, setPasswordShow] = useState(false)
 
     const handleChange = useCallback(({ target: { name, value } }) => {
         setForm({ ...form, [name]: value })
@@ -52,8 +54,10 @@ const AdminLogin: React.FC = () => {
                                 <label htmlFor="email">Email:</label>
                             </div>
                             <div className="admin-group">
-                                <input type="password" name="password" />
+                                <input type={passwordShow ? "text" : "password"} name="password" />
                                 <label htmlFor="password">Password:</label>
+                                <span onClick={() => setPasswordShow(show => !show)} >{!passwordShow ? <BsEye /> : <BsEyeSlash />}</span>
+
                             </div>
                             {errMessage && <div className="form-error-messages">{errMessage}</div>}
                             <button type="submit">Sign in</button>

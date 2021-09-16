@@ -17,12 +17,12 @@ const RegisterAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
     //POST
     if (req.method === 'POST') {
-        const { full_name, password, email } = req.body;
+        const { full_name, gender, password, email } = req.body;
 
         if (
             !full_name || full_name.trim() === '' &&
             !password || password.trim() === '' &&
-            !email || email.trim() === ''|| !email.includes('@')
+            !email || email.trim() === '' || !email.includes('@')
         ) {
             res.status(422).json({ messages: "Invalid full name and more area" })
             return
@@ -38,7 +38,7 @@ const RegisterAPI = async (req: NextApiRequest, res: NextApiResponse) => {
                 return
             }
 
-            await documentInsertDataBase(client, 'users', { full_name, password, email })
+            await documentInsertDataBase(client, 'users', { full_name, gender, password, email })
             client.close()
             res.status(201).json({ messages: 'Cool!! Created new user' })
 

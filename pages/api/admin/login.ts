@@ -20,9 +20,10 @@ const RegisterAPI = async (req: NextApiRequest, res: NextApiResponse) => {
     //POST
     if (req.method === 'POST') {
         const { password, email } = req.body;
+        const oldPassword = password.toString() 
 
         if (
-            !password || password.trim() === '' &&
+            !oldPassword || oldPassword.trim() === '' &&
             !email || email.trim() === '' || !email.includes('@')
         ) {
             res.status(422).json({ messages: "Invalid email or password area" })
@@ -41,11 +42,12 @@ const RegisterAPI = async (req: NextApiRequest, res: NextApiResponse) => {
                 throw new Error('User not found')
             }
 
-            const isValid = await verifyPassword(password, user.password)
-
+            const isValid = await verifyPassword(oldPassword, user.password)
+            
             if (!isValid) {
+                res.status(500).json({ messages: "Wrong password" })
                 client.close()
-                throw new Error('Could not log you in')
+                return
             }
 
             delete user.password

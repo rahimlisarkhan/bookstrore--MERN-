@@ -12,6 +12,11 @@ const AdminPanelTabPanel = ({ tabIndex, setTabIndex }) => {
                     Products
                 </div>
             </div>
+            <div className="tab-add">
+                <button>Product Add</button>
+            </div >
+
+
         </div >
     )
 }
